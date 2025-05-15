@@ -45,19 +45,22 @@ flowchart TD
 
 ### 🧨 Job Publisher
 
-- Her **10 dakikada bir**, kuyruklara **100 adet job** gönderir.
+-  Her **10 dakikada bir**, kuyruklara **100 adet job** gönderir.
 - `CronJob` olarak çalışır.
 -  Python ile yazılmıştır.
+-  Image kişisel dockerhub registry'sinden çekilir.
 
 
 ### 🧲 Consumer
 
 - Kuyruktan mesajları çeker ve işler.
 - Varsayılan olarak **0 replica** olarak deploy edilmiştir.
+- Image kişisel dockerhub registry'sinden çekilir.
+- Her seferinde 1 job işleyecek şekilde ayarlanmıştır.
 
 ### 📈 Scaler Servisi
 
-- 5 saniyede bir LavinMQ REST API’sini sorgular.
+- 5 saniyede bir Prometheus API’ından lavinmq_queue_messages_ready metric'ğini sorgular.
 - Eğer job sayısı > 100 ise `consumer` deployment'ını **25 replica**'ya çıkarır.
 - Job yoksa replica sayısını **0** yapar.
 - service-monitor objesi ile **lavinmq_queue_messages_ready** metric'iğinin Prometheus tarafından alabilmesi sağlandı. Bu metric ise lavinmq'nun sağlamış olduğu /metrics endpoint'i üzerinden okunur.
@@ -110,11 +113,10 @@ chmod +x install.sh
 ### `install.sh` ne yapar?
 
 1. Gerekli araçları kurar (`multipass`, `kubectl`, `helm`, `kubespray`).bkz [setup_tools.sh](https://github.com/orkunincili/s4e-cluster/blob/main/installation/setup_tools.sh)
-2. 3 node’lu Kubernetes cluster'ı kurar.bkz.[create_cluster.sh](https://github.com/orkunincili/s4e-cluster/blob/main/installation/create_cluster.sh)
-3. CoreDNS ayarlarını yapar.bkz [coredns.sh](https://github.com/orkunincili/s4e-cluster/blob/main/installation/coredns.sh)
+2. 3 node’lu Kubernetes cluster'ı kurar ve ssh ile bağlanılabilecek hale getirir.bkz.[create_cluster.sh](https://github.com/orkunincili/s4e-cluster/blob/main/installation/create_cluster.sh)
+3. CoreDNS ayarlarını yapar. coredns'in sonsun döngüye girmesinden kaynaklı yaşanan CrashLoopBackOff çözümü için uygulandı. bkz [coredns.sh](https://github.com/orkunincili/s4e-cluster/blob/main/installation/coredns.sh)
 4. Prometheus + Grafana stack’ini kurar.bkz.[install.sh](https://github.com/orkunincili/s4e-cluster/blob/main/installation/install.sh)
-5. LavinMQ, job publisher, consumer, scaler, EFK stack kurulumlarını yapar.
-
+5. LavinMQ, job publisher, consumer, scaler, EFK stack kurulumlarını yapar.bkz.[install.sh](https://github.com/orkunincili/s4e-cluster/blob/main/installation/install.sh)
 
 ---
 
