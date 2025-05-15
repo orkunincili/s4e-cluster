@@ -103,6 +103,7 @@ Tek komutla tüm sistemi kurabilirsiniz:
 
 ```bash
 cd installation
+chmod +x install.sh
 ./install.sh
 ```
 
