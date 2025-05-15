@@ -1,0 +1,19 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: lavinmq-consumer-scaler
+  namespace: lavinmq
+spec:
+  scaleTargetRef:
+    name: lavinmq-consumer  # Target deployment name
+  minReplicaCount: 0        
+  maxReplicaCount: 25       
+  pollingInterval: 60       # Run query every 60 sec
+  cooldownPeriod: 120       # The number of seconds to wait after a scale operation before another can occur
+  triggers:
+    - type: prometheus
+      metadata:
+        serverAddress: http://prometheus-operated.monitoring.svc.cluster.local:9090
+        metricName: lavinmq_queue_messages_ready # for Prometheus  
+        query: lavinmq_queue_messages_ready      # Label for KEDA
+        threshold: "100"

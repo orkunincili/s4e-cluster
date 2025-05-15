@@ -1,0 +1,25 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: lavinmq-service-monitor
+  namespace: monitoring
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: lavinmq
+  namespaceSelector:
+    matchNames:
+      - lavinmq 
+  endpoints:
+  - port: "management"
+    path: /metrics 
+    interval: 2s
+    basicAuth:
+        username:
+          name: lavinmq-basic-auth
+          key: username
+        password:
+          name: lavinmq-basic-auth
+          key: password

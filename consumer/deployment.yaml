@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lavinmq-consumer
+  namespace: lavinmq
+spec:
+  replicas: 0 
+  selector:
+    matchLabels:
+      app: lavinmq-consumer
+  template:
+    metadata:
+      labels:
+        app: lavinmq-consumer
+    spec:
+      containers:
+        - name: lavinmq-consumer
+          image: orkunincili/consumer:v1

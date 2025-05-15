@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lavinmq-scaler
+  namespace: lavinmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lavinmq-scaler
+  template:
+    metadata:
+      labels:
+        app: lavinmq-scaler
+    spec:
+      serviceAccountName: scaler-sa
+      containers:
+        - name: scaler
+          image: orkunincili/consumer-scaler:v4
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PROMETHEUS_URL
+              value: "http://prometheus-operated.monitoring.svc.cluster.local:9090"
+

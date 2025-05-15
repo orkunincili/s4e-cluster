@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: lavinmq-job-publisher
+  namespace: lavinmq
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: job-publisher
+              image: orkunincili/jobpublisher:100j # 100j = 1 job per sec in 100s
+              env:
+                - name: LAVINMQ_SERVICE
+                  value: "lavinmq"
+          restartPolicy: OnFailure
+

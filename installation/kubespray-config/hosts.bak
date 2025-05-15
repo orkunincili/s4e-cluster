@@ -1,0 +1,29 @@
+all:
+  hosts:
+    master:
+      ansible_host: MASTER_IP
+      ip: MASTER_IP
+      access_ip: MASTER_IP
+    node01:
+      ansible_host: WORKER01_IP
+      ip: WORKER01_IP
+      access_ip: WORKER01_IP
+    node02:
+      ansible_host: WORKER02_IP
+      ip: WORKER02_IP
+      access_ip: WORKER02_IP
+  children:
+    kube_control_plane:
+      hosts:
+        master:
+    kube_node:
+      hosts:
+        node01:
+        node02:
+    etcd:
+      hosts:
+        master:
+    k8s_cluster:
+      children:
+        kube_control_plane:
+        kube_node:
