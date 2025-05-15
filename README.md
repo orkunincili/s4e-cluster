@@ -48,6 +48,7 @@ flowchart TD
 - Her **10 dakikada bir**, kuyruklara **100 adet job** gönderir.
 - `CronJob` olarak çalışır.
 - Python ile yazılmıştır.
+
   ```
 import pika
 import os
@@ -82,8 +83,7 @@ finally:
 
 - Kuyruktan mesajları çeker ve işler.
 - Varsayılan olarak **0 replica** olarak deploy edilmiştir.
-```
-```
+
 ### 📈 Scaler Servisi
 
 - 5 saniyede bir LavinMQ REST API’sini sorgular.
