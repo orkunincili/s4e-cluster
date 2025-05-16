@@ -35,7 +35,7 @@ flowchart TD
 | 🔧 **Helm** | Prometheus ve bazı bileşenlerin kurulumu |
 | 📬 **LavinMQ** | Mesaj kuyruğu servisi |
 | 📈 **Prometheus & Grafana** | Metrik toplama ve görselleştirme |
-| 📄 **EFK Stack** | Log toplama (Elasticsearch, Fluentd, Kibana) |
+| 📄 **Loki & Grafana** | Log toplama |
 | 🐍 **Job Publisher (Python)** | Kuyruğa düzenli iş ekler |
 | 🐍 **Consumer (Python)** | İşleri tüketir |
 | 🐍 **Scaler (Python)** | Kuyruktaki iş sayısına göre pod’ları ölçekler |
