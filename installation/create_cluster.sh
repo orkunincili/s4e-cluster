@@ -19,7 +19,7 @@ echo "Creating worker01 node..."
 multipass launch --name worker01 --cpus 2 --mem 3G --disk 30G --cloud-init cloud-init.yaml
 
 echo "Creating worker02 node..."
-multipass launch --name worker02 --cpus 2 --mem 3G --disk 300G --cloud-init cloud-init.yaml
+multipass launch --name worker02 --cpus 2 --mem 3G --disk 30G --cloud-init cloud-init.yaml
 
 # Step 2: Wait for VMs to be "Ready"
 echo "Waiting for VMs to initialize..."
