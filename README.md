@@ -75,10 +75,10 @@ flowchart TD
 - LavinMQ ve scaler metrikleri de entegredir.
 
 
-### 📑 EFK (Elasticsearch, Fluentd, Kibana)
+### 📑 Loki + Grafana
 
-- Fluentd tüm pod loglarını Elasticsearch’e yollar.
-- Kibana’dan tüm loglar aranabilir ve filtrelenebilir.
+- Promtail (veya benzeri bir agent) Kubernetes podları ve sistemlerden logları toplar.
+- Grafana’dan tüm loglar aranabilir ve filtrelenebilir.
 
 ---
 
