@@ -34,13 +34,6 @@ for dir in "${dirs[@]}"; do
   kubectl apply -f "$REPO_ROOT_DIR/$dir"
 done
 
-kubectl apply -f $REPO_ROOT_DIR/elastic.yaml
-kubectl wait --for=condition=Ready pod/es-cluster-0 -n efk --timeout=300s && \
-kubectl wait --for=condition=Ready pod/es-cluster-1 -n efk --timeout=300s && \
-kubectl wait --for=condition=Ready pod/es-cluster-2 -n efk --timeout=300s
-
-kubectl apply -f $REPO_ROOT_DIR/fluentd.yaml
-kubectl apply -f $REPO_ROOT_DIR/kibana.yaml
 
 
 
