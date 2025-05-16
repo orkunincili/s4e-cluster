@@ -24,7 +24,7 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
 helm install prometheus prometheus-community/kube-prometheus-stack --namespace monitoring --create-namespace
-helm install loki grafana/loki-stack   --namespace monitoring --create-namespace   --set promtail.enabled=true --set grafana.enabled=false --set loki.ima.tag=2.9.3
+helm install loki grafana/loki-stack --namespace monitoring --set promtail.enabled=true --set grafana.enabled=false --set loki.image.tag=2.9.3
 
 kubectl create namespace lavinmq
 kubectl create namespace efk
