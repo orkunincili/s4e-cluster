@@ -158,5 +158,10 @@ chmod +x install.sh
 - `scaledobject/` klasörü, istenirse KEDA ile ilerlemek için hazır bırakılmıştır.
 
 ---
+##  Ekran Görüntüleri
+![Ekran Görüntüsü](images/1t.png)
+![Ekran Görüntüsü](images/2.png)
+![Ekran Görüntüsü](images/3.png)
+![Ekran Görüntüsü](images/4.png)
 
 
