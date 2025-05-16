@@ -119,7 +119,7 @@ chmod +x install.sh
    - Kubespray configurasyonu (hosts.yaml, all.yaml,k8s-cluster.yaml)
    - Ingsress'ler için hosts dosyası düzenlemesi (grafana, prometheus,lavinmq gibi)
    - LavninMQ için gerekli volume dizinlerinin oluşturulması (local-path çözümü)
-   - Host makineden cluster yönetimi için config dosyasının ayarlanması8master node'tan admin.conf'un alınıp düzenlenmesi)
+   - Host makineden cluster yönetimi için config dosyasının master node'tan alınıp düzenlenmesi (etc/kubernetes/admin.conf)
      bkz.[create_cluster.sh](https://github.com/orkunincili/s4e-cluster/blob/main/installation/create_cluster.sh)
 4. CoreDNS ayarlarını yapar. coredns'in sonsun döngüye girmesinden kaynaklı yaşanan CrashLoopBackOff çözümü için uygulandı. bkz [coredns.sh](https://github.com/orkunincili/s4e-cluster/blob/main/installation/coredns.sh)
 5. Prometheus + Grafana stack’ini kurar.bkz.[install.sh](https://github.com/orkunincili/s4e-cluster/blob/main/installation/install.sh)
@@ -134,10 +134,12 @@ chmod +x install.sh
 ├── consumer/                # Tüketici kodları ve deployment                     
 ├── installation/            # Kurulum scriptleri
 ├── job-publisher/           # CronJob + Python kodu
-├── prometheus-stack/        # Helm chart ve config'ler
 ├── scaler/                  # Otomatik scaler kodu ve deployment
 ├── service-monitor/         # LavinMQ metrikleri için Prometheus yapılandırması
 └── scaledobject/            # (KEDA kullanılmadıysa boş bırakılabilir)
+└── ingresses/               # Gerekli ingress manifest dosyalarının bulunduğu dizin
+└── images/                  # Fikir oluşturma amaçlı birkaç ekran görüntünün bulunduğu dizin
+
 ```
 
 ---
@@ -162,6 +164,7 @@ chmod +x install.sh
 
 - Bu projede KEDA yerine custom scaler servisi yazılmıştır.
 - `scaledobject/` klasörü, istenirse KEDA ile ilerlemek için hazır bırakılmıştır.
+- KEDA'nın kullanılmama sebebi **case'e uygun** scale up/down yapamamasıdır.
 
 ---
 ##  Ekran Görüntüleri
