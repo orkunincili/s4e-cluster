@@ -13,12 +13,13 @@ flowchart TD
     CS[Consumer Pods]
     SC[Scaler Service]
     MON[Prometheus + Grafana]
-    LOG[EFK Stack (Elasticsearch-Fluentd-Kibana)]
+    LOG[Loki + Grafana]
 
     JP --> MQ
     MQ --> CS
     MQ --> SC
     CS --> LOG
+    MQ --> LOG
     SC --> MON
     CS --> MON
 ```
