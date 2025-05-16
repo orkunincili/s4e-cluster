@@ -135,11 +135,11 @@ chmod +x install.sh
 ├── consumer/                # Tüketici kodları ve deployment                     
 ├── installation/            # Kurulum scriptleri
 ├── job-publisher/           # CronJob + Python kodu
-├── scaler/                  # Otomatik scaler kodu ve deployment
+├── scaler/                  # Custom scaler kodu ve deployment
 ├── service-monitor/         # LavinMQ metrikleri için Prometheus yapılandırması
 └── scaledobject/            # (KEDA kullanılmadıysa boş bırakılabilir)
 └── ingresses/               # Gerekli ingress manifest dosyalarının bulunduğu dizin
-└── images/                  # Fikir oluşturma amaçlı birkaç ekran görüntünün bulunduğu dizin
+└── images/                  # Görselleştirme amaçlı birkaç ekran görüntüsünün bulunduğu dizin
 
 ```
 
