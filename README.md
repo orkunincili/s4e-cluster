@@ -75,10 +75,10 @@ flowchart TD
 - LavinMQ ve scaler metrikleri de entegredir.
 
 
-### 📑 EFK (Elasticsearch, Fluentd, Kibana)
+### 📑 Loki + Grafana
 
-- Fluentd tüm pod loglarını Elasticsearch’e yollar.
-- Kibana’dan tüm loglar aranabilir ve filtrelenebilir.
+- Promtail (veya benzeri bir agent) Kubernetes podları ve sistemlerden logları toplar.
+- Grafana’dan tüm loglar aranabilir ve filtrelenebilir.
 
 ---
 
@@ -113,10 +113,17 @@ chmod +x install.sh
 ### `install.sh` ne yapar?
 
 1. Gerekli araçları kurar (`multipass`, `kubectl`, `helm`, `kubespray`).bkz [setup_tools.sh](https://github.com/orkunincili/s4e-cluster/blob/main/installation/setup_tools.sh)
-2. 3 node’lu Kubernetes cluster'ı kurar ve ssh ile bağlanılabilecek hale getirir.bkz.[create_cluster.sh](https://github.com/orkunincili/s4e-cluster/blob/main/installation/create_cluster.sh)
-3. CoreDNS ayarlarını yapar. coredns'in sonsun döngüye girmesinden kaynaklı yaşanan CrashLoopBackOff çözümü için uygulandı. bkz [coredns.sh](https://github.com/orkunincili/s4e-cluster/blob/main/installation/coredns.sh)
-4. Prometheus + Grafana stack’ini kurar.bkz.[install.sh](https://github.com/orkunincili/s4e-cluster/blob/main/installation/install.sh)
-5. LavinMQ, job publisher, consumer, scaler, EFK stack kurulumlarını yapar.bkz.[install.sh](https://github.com/orkunincili/s4e-cluster/blob/main/installation/install.sh)
+2. 3 node’lu Kubernetes cluster kurulumu yapar. Bunlara;
+   - Sunucuların kurulması (multipass)
+   - SSH ile bağlanılabilir hale getirme (cloud-init)
+   - Kubespray configurasyonu (hosts.yaml, all.yaml,k8s-cluster.yaml)
+   - Ingsress'ler için hosts dosyası düzenlemesi (grafana, prometheus,lavinmq gibi)
+   - LavninMQ için gerekli volume dizinlerinin oluşturulması (local-path çözümü)
+   - Host makineden cluster yönetimi için config dosyasının ayarlanması8master node'tan admin.conf'un alınıp düzenlenmesi)
+     bkz.[create_cluster.sh](https://github.com/orkunincili/s4e-cluster/blob/main/installation/create_cluster.sh)
+4. CoreDNS ayarlarını yapar. coredns'in sonsun döngüye girmesinden kaynaklı yaşanan CrashLoopBackOff çözümü için uygulandı. bkz [coredns.sh](https://github.com/orkunincili/s4e-cluster/blob/main/installation/coredns.sh)
+5. Prometheus + Grafana stack’ini kurar.bkz.[install.sh](https://github.com/orkunincili/s4e-cluster/blob/main/installation/install.sh)
+6. LavinMQ, job publisher, consumer, scaler, Loki + Grafana kurulumlarını yapar.bkz.[install.sh](https://github.com/orkunincili/s4e-cluster/blob/main/installation/install.sh)
 
 ---
 
@@ -124,8 +131,7 @@ chmod +x install.sh
 
 ```
 .
-├── consumer/                # Tüketici kodları ve deployment
-├── efk/                     # Elasticsearch, Fluentd, Kibana manifest dosyaları
+├── consumer/                # Tüketici kodları ve deployment                     
 ├── installation/            # Kurulum scriptleri
 ├── job-publisher/           # CronJob + Python kodu
 ├── prometheus-stack/        # Helm chart ve config'ler
@@ -159,9 +165,9 @@ chmod +x install.sh
 
 ---
 ##  Ekran Görüntüleri
-![Ekran Görüntüsü](images/1t.png)
-![Ekran Görüntüsü](images/2.png)
-![Ekran Görüntüsü](images/3.png)
-![Ekran Görüntüsü](images/4.png)
+![LavinMQ Default Dashboard](images/1.png)
+![Loki Dashboard](images/2.png)
+![LavinMQ Grafana Dashboard](images/3.png)
+
 
 
