@@ -1,17 +1,17 @@
 all:
   hosts:
     master:
-      ansible_host: 10.78.225.234
-      ip: 10.78.225.234
-      access_ip: 10.78.225.234
+      ansible_host: 10.78.225.110
+      ip: 10.78.225.110
+      access_ip: 10.78.225.110
     node01:
-      ansible_host: 10.78.225.39
-      ip: 10.78.225.39
-      access_ip: 10.78.225.39
+      ansible_host: 10.78.225.213
+      ip: 10.78.225.213
+      access_ip: 10.78.225.213
     node02:
-      ansible_host: 10.78.225.87
-      ip: 10.78.225.87
-      access_ip: 10.78.225.87
+      ansible_host: 10.78.225.80
+      ip: 10.78.225.80
+      access_ip: 10.78.225.80
   children:
     kube_control_plane:
       hosts:

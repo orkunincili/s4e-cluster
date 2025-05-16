@@ -1,6 +1,14 @@
 #!/bin/bash
 
 REPO_ROOT_DIR=$(git rev-parse --show-toplevel)
+dirs=(
+  "job-publisher"
+  "consumer"
+  "scaler"
+  "service-monitor"
+  "ingresses"
+)
+
 chmod +x setup_tools.sh
 chmod +x create_cluster.sh
 chmod +x coredns.sh
@@ -10,24 +18,29 @@ chmod +x coredns.sh
 ./coredns.sh
 
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
 
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
 helm install prometheus prometheus-community/kube-prometheus-stack --namespace monitoring --create-namespace
+helm install loki grafana/loki-stack   --namespace monitoring --create-namespace   --set promtail.enabled=true --set grafana.enabled=false --set loki.ima.tag=2.9.3
 
 kubectl create namespace lavinmq
 kubectl create namespace efk
-cd $REPO_ROOT_DIR/job-publisher
-kubectl apply -f .
 
-cd $REPO_ROOT_DIR/consumer
-kubectl apply -f .
+for dir in "${dirs[@]}"; do
+  echo "Applying manifests from $REPO_ROOT_DIR/$dir"
+  kubectl apply -f "$REPO_ROOT_DIR/$dir"
+done
 
-cd $REPO_ROOT_DIR/scaler
-kubectl apply -f .
+kubectl apply -f $REPO_ROOT_DIR/elastic.yaml
+kubectl wait --for=condition=Ready pod/es-cluster-0 -n efk --timeout=300s && \
+kubectl wait --for=condition=Ready pod/es-cluster-1 -n efk --timeout=300s && \
+kubectl wait --for=condition=Ready pod/es-cluster-2 -n efk --timeout=300s
 
-cd $REPO_ROOT_DIR/service-monitor
-kubectl apply -f .
+kubectl apply -f $REPO_ROOT_DIR/fluentd.yaml
+kubectl apply -f $REPO_ROOT_DIR/kibana.yaml
 
-cd $REPO_ROOT_DIR/efk
-kubectl apply -f .
+
+

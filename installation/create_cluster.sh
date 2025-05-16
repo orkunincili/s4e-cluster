@@ -13,13 +13,13 @@ ssh_authorized_keys:
 EOF
 # Step 1: Create VMs using multipass
 echo "Creating master node..."
-multipass launch --name master --cpus 2 --mem 2G --disk 10G --cloud-init cloud-init.yaml 
+multipass launch --name master --cpus 1 --mem 2G --disk 10G --cloud-init cloud-init.yaml 
 
 echo "Creating worker01 node..."
-multipass launch --name worker01 --cpus 2 --mem 2G --disk 10G --cloud-init cloud-init.yaml
+multipass launch --name worker01 --cpus 2 --mem 3G --disk 30G --cloud-init cloud-init.yaml
 
 echo "Creating worker02 node..."
-multipass launch --name worker02 --cpus 2 --mem 2G --disk 10G --cloud-init cloud-init.yaml
+multipass launch --name worker02 --cpus 2 --mem 3G --disk 300G --cloud-init cloud-init.yaml
 
 # Step 2: Wait for VMs to be "Ready"
 echo "Waiting for VMs to initialize..."
@@ -65,6 +65,12 @@ sed -i "s/MASTER_IP/${MASTER_IP}/g" kubespray-config/hosts.yaml
 sed -i "s/WORKER01_IP/${WORKER01_IP}/g" kubespray-config/hosts.yaml
 sed -i "s/WORKER02_IP/${WORKER02_IP}/g" kubespray-config/hosts.yaml
 
+HOSTS_LINE="$MASTER_IP grafana.local prometheus.local lavinmq.local kibana.local elastic.local"
+HOSTS_FILE="/etc/hosts"
+
+if ! grep -Fxq "$HOSTS_LINE" $HOSTS_FILE; then
+  echo "$HOSTS_LINE" | sudo tee -a $HOSTS_FILE > /dev/null
+fi
 multipass exec worker01 -- sudo mkdir -p /mnt/data/lavinmq
 multipass exec worker02 -- sudo mkdir -p /mnt/data/lavinmq
 
@@ -83,3 +89,5 @@ sed -i "s|https://127.0.0.1:6443|https://$MASTER_IP:6443|g" admin.conf
 mkdir -p ~/.kube
 cp admin.conf ~/.kube/config
 rm -rf admin.conf
+cp $REPO_ROOT_DIR/kubespray-config/hosts.template $REPO_ROOT_DIR/kubespray-config/hosts.yaml
+

@@ -6,8 +6,7 @@ Bu proje, Kubernetes üzerinde mesaj kuyruklarına iş atan, bu işleri tüketen
 
 ## 🧱 Genel Mimarî
 
-```mermaid
-flowchart TD
+```
     JP[Job Publisher (CronJob)]
     MQ[LavinMQ]
     CS[Consumer Pods]
@@ -33,7 +32,7 @@ flowchart TD
 | 🧰 **KubeSpray** | Cluster kurulumu |
 | 🔧 **Helm** | Prometheus ve bazı bileşenlerin kurulumu |
 | 📬 **LavinMQ** | Mesaj kuyruğu servisi |
-| 📈 **Prometheus & Grafana** | Metrik toplama ve görselleştirme |
+| 📈 **Prometheus Stack** | Metrik toplama ve görselleştirme |
 | 📄 **EFK Stack** | Log toplama (Elasticsearch, Fluentd, Kibana) |
 | 🐍 **Job Publisher (Python)** | Kuyruğa düzenli iş ekler |
 | 🐍 **Consumer (Python)** | İşleri tüketir |
@@ -41,7 +40,7 @@ flowchart TD
 
 ---
 
-## 🔁 İş Akışı
+##🔁 İş Akışı
 
 ### 🧨 Job Publisher
 
