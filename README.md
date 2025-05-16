@@ -159,9 +159,9 @@ chmod +x install.sh
 
 ---
 ##  Ekran Görüntüleri
-![Ekran Görüntüsü](images/1t.png)
-![Ekran Görüntüsü](images/2.png)
-![Ekran Görüntüsü](images/3.png)
-![Ekran Görüntüsü](images/4.png)
+![LavinMQ Default Dashboard](images/1.png)
+![Loki Dashboard](images/2.png)
+![LavinMQ Grafana Dashboard](images/3.png)
+
 
 
