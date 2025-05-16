@@ -27,7 +27,6 @@ helm install prometheus prometheus-community/kube-prometheus-stack --namespace m
 helm install loki grafana/loki-stack --namespace monitoring --set promtail.enabled=true --set grafana.enabled=false --set loki.image.tag=2.9.3
 
 kubectl create namespace lavinmq
-kubectl create namespace efk
 
 for dir in "${dirs[@]}"; do
   echo "Applying manifests from $REPO_ROOT_DIR/$dir"
