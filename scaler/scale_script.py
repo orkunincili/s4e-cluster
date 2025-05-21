@@ -2,12 +2,13 @@ from kubernetes import client, config
 import requests
 import time
 import os
+import datetime
 
 PROMETHEUS_URL = os.getenv('PROMETHEUS_URL', 'http://prometheus-operated.monitoring.svc.cluster.local:9090')
 PROMQL_QUERY = 'lavinmq_queue_messages_ready'
 DEPLOYMENT_NAME = "lavinmq-consumer"
 NAMESPACE = "lavinmq"
-
+if_hundred = False
 def get_queue_length():
     try:
         resp = requests.get(
@@ -44,11 +45,13 @@ if __name__ == "__main__":
     while True:
         msg_count = get_queue_length()
         if msg_count >= 100:
-            print(f"{msg_count} job var. 25 pod başlatılıyor.")
+            print(f"{msg_count} job var. 25 pod başlatılıyor. {datetime.datetime.now()}")
             scale_deployment(25)
-        elif msg_count == 0:
-            print("Kuyruk boş. Tüketiciler durduruluyor.")
+            if_hundred = True
+        elif if_hundred and msg_count == 0:
+            print(f"Kuyruk boş. {datetime.datetime.now()}")
             scale_deployment(0)
+            if_hundred = False # Added controller to prevent re-scaling when the message count is 0 for 5 minutes
         else:
             print(f"{msg_count} job var. Eşik altında.")
         time.sleep(5)
